@@ -9,14 +9,11 @@ package com.psj.io.ioStream;
 
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * 流的分类：
- * 1.操作数据单位：字节流（一般是视频），字符流（一般是文本文件）
+ * 1.操作数据单位：字节流（一般是视频，图片,word文档等），字符流（一般是文本文件，源代码等）
  * 2.数据的流向：输入流(磁盘到程序)，输出流（程序到磁盘）
  * 3.流的角色：节点流（直接操作文件），处理流（在文件的外层包裹外壳，操作外壳）
  *
@@ -32,6 +29,9 @@ import java.io.IOException;
  *      所以使用try-catch,并且在close的try-catch中需要判断是否为null(如果在new FileReader
  *      就出现异常，意味没有创建对象，这样直接跳到finally执行close方法就会报空指针异常)
  *      2.读入的文件一定要存在，否则会报FileNotFoundException
+ *      3.输出操作时，对应的File可以不存在，不会报异常（硬盘中文件不存在就会自动创建文件）
+ *      4.FileReader和FileWriter不能对图片进行处理，要使用FileInputStream和FileOutputStream
+ *        因为图片底层就是一个二进制的数据，强行转化为char是错误的
  */
 
 
@@ -117,6 +117,70 @@ public class FileReaderWriterTest {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    /*
+    FileWriter(file,true):不会对原有文件进行覆盖，在结尾追加
+    FileWriter(file,false)/FileWriter(file):会对原有文件进行覆盖
+     */
+    @Test
+    public void testFileWriter() {//文件的写入
+        FileWriter fw = null;
+        try {
+            File file = new File("hello1.txt");
+            fw = new FileWriter(file,true);
+            fw.write("demoWriter1");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fw!=null){
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFileRFileW() throws IOException {//将helloSrc.txt的内容写到helloDest.txt中
+        FileWriter fileWriter = null;
+        FileReader fileReader = null;
+        try {
+            //创建File类的对象
+            File srcfile = new File("helloSrc.txt");
+            File destfile = new File("helloDest.txt");
+            //创建输入流和输出流的对象
+            fileReader = new FileReader(srcfile);
+            fileWriter = new FileWriter(destfile);
+
+            //数据的读入和写出操作
+            char[] buf = new char[5];
+            int len;//每次读入到buf数组中字符的个数
+            while ((len = fileReader.read(buf)) != -1){
+                //每次写出len个字符
+                fileWriter.write(buf,0,len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //关闭资源
+            if (fileWriter != null){
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fileReader != null){
+                try {
+                    fileReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
