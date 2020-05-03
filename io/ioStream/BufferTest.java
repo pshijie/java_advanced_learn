@@ -70,8 +70,55 @@ public class BufferTest {
 //        fileOutputStream.close();
         }
 
+    }
 
+    @Test
+    public void testBufferedReaderBufferedWriter() {//使用BufferedReader和BufferedWriter实现对文本的复制
+        BufferedReader bufferedReader = null;
+        BufferedWriter bufferedWriter = null;
+        try {
+            //直接使用匿名函数
+            bufferedReader = new BufferedReader(new FileReader(new File("hello.txt")));
+            bufferedWriter = new BufferedWriter(new FileWriter(new File("helloBw.txt")));
 
+            //方法1：老方法用char数组
+//            char[] buffer = new char[5];
+//            int len;
+//            while ((len = bufferedReader.read(buffer)) != -1){
+//                bufferedWriter.write(buffer,0,len);
+//    //            bufferedWriter.flush();//可以不写
+//            }
+
+            //方法2：直接一行一行读,readLine方法
+            String data;
+            while ((data = bufferedReader.readLine()) != null)
+            {
+//                bufferedWriter.write(data);//不包含换行符，如果文本有多行全部写在一行里面
+
+//                //换行方法1：
+//                bufferedWriter.write(data + "\n");
+                //换行方法2:
+                bufferedWriter.write(data);
+                bufferedWriter.newLine();//换行
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bufferedWriter != null){
+                try {
+                    bufferedWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (bufferedReader != null){
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 
     }

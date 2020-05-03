@@ -13,16 +13,16 @@ import java.io.*;
 
 /**
  * 流的分类：
- * 1.操作数据单位：字节流（一般是视频，图片,word文档等），字符流（一般是文本文件，源代码等）
+ * 1.操作数据单位：字节流（一般是视频，图片,word文档等，使用的是末尾为Stream的），字符流（一般是文本文件，源代码等，使用的是read和write）
  * 2.数据的流向：输入流(磁盘到程序)，输出流（程序到磁盘）
  * 3.流的角色：节点流（直接操作文件），处理流（在文件的外层包裹外壳，操作外壳）
  *
  * 流的体系结构
- * 抽象基类         节点流(文件流)        缓冲流（处理流）
- * InputStream      FileInputStream     BufferInputStream
- * OutputStream     FileOutputStream    BufferOutputStream
- * Reader           FileReader          BufferReader
- * Writer           FileWriter          BufferWriter
+ * 抽象基类         节点流(文件流)                                    缓冲流（处理流的一种，处理流还有转换流）
+ * InputStream      FileInputStream (read(byte[] buffer))           BufferInputStream   (read(byte[] buffer))
+ * OutputStream     FileOutputStream(write(byte[] buffer,0,len))    BufferOutputStream  (write(byte[] buffer,0,len))
+ * Reader           FileReader      (read(char[] buffer))           BufferReader        (read(char[] buffer)/readLine()d)
+ * Writer           FileWriter      (write(char[] buffer,0,len))    BufferWriter        (write(char[] buffer,0,len))
  *
  * Tips:1、在testFileReader中如果直接选择抛异常，假设在new FileReader时没问题，但是
  *      在read()出现了问题，此时就不会执行close()方法（对于数据库，IO流，Socket这些需要关闭）
