@@ -9,10 +9,8 @@ package com.psj.io.ioStream;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.crypto.interfaces.PBEKey;
+import java.io.*;
 
 /**
 其他流的使用：
@@ -58,4 +56,85 @@ public class OtherStreamTest {
         }
 
     }
+
+    /**
+     * 2.打印流 PrintStream和PrintWriter
+     */
+    @Test
+    public void test2(){
+        PrintStream ps = null;
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(new File("PrintStream.txt"));
+            ps = new PrintStream(fileOutputStream,true);
+            if (ps != null){    //将原本从控制台输出修改为输出到文件
+                System.setOut(ps);
+            }
+            for (int i = 0;i<=255;i++){
+                System.out.print((char)i);
+                if (i%50==0){
+                    System.out.println();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null){
+
+                ps.close();
+            }
+        }
+
+    }
+
+    /**
+     *3.数据流 DataInputStream和DataOutputStream
+     * 作用：方便操作java中的基本数据类型和String的数据
+     */
+    @Test
+    public void test3(){    //直接打开文本会出现乱码
+        DataOutputStream dataOutputStream  = null;
+        try {
+            dataOutputStream = new DataOutputStream(new FileOutputStream("dataOutputStream.txt"));
+            //writeUTF是写入字符串
+            dataOutputStream.writeUTF("pshijie");
+            dataOutputStream.writeInt(22);
+            dataOutputStream.writeBoolean(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (dataOutputStream != null){
+
+                try {
+                    dataOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void test4(){
+        DataInputStream dataInputStream = null;
+        try {
+            dataInputStream = new DataInputStream(new FileInputStream("dataOutputStream.txt"));
+            //*读的过程要与写的顺序一致
+            String name = dataInputStream.readUTF();
+            int age = dataInputStream.readInt();
+            boolean isMale = dataInputStream.readBoolean();
+            System.out.println(name+age+isMale);
+        } catch (IOException e) {
+                e.printStackTrace();
+        } finally {
+            if (dataInputStream != null){
+                try {
+                    dataInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
 }
