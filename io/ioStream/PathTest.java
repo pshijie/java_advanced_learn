@@ -17,6 +17,7 @@ import java.nio.file.Paths;
  * 在java.nio.file包下：
  * Path可以看做是java.io.file类的升级版本，可以表示文件或文件目录，与平台无关
  * 实例化Path:使用Paths.get()方法
+ * Tips:NIO是面向缓冲区的，IO是面向流的
  */
 public class PathTest {
     @Test

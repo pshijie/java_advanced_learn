@@ -15,11 +15,14 @@ import java.io.*;
 /**
  * 对象流：ObjectInputStream和ObjectOutputStream
  * 作用：用于储存和读取基本数据类型或对象的处理流
+ *      ObjectInputStream：内存中的对象->存储中的文件或通过网络传输出去
+ *      ObjectOutputStream：存储中的文件或通过网络接收过来->内存中的对象
  */
 public class ObjectInputOutputStreamTest {
     /**
      * 序列化的过程：将内存中的java对象保存到磁盘中或通过网络传输出去
      *使用ObjectOutputStream
+     *
      * 要一个java对象实现序列化：
      * 1.实现接口Serializable
      * 2.类要提供一个全局的常量serialVersionUID。
@@ -32,7 +35,9 @@ public class ObjectInputOutputStreamTest {
      * 反序列化：将磁盘文件中的对象还原为内存中的一个java对象
      * 使用ObjectInputStream
      *
-     * Tips:static和transient修饰的成员变量是不能被序列化的，当打印对象就不会有这些变量的值
+     * Tips:1.static和transient修饰的成员变量是不能被序列化的，当打印对象就不会有这些变量的值
+     *      2.基本数据类型和String类型天然就是可序列化的，所以为了不每一次返回数据都进行序列化的过程
+     *        因此使用json（字符串）返回
      */
     @Test
     public void testObjectOutputStream(){   //序列化
