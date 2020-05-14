@@ -16,6 +16,10 @@ import java.util.Random;
 
 /**
  * 通过反射创建对应的运行时类的对象
+ * Tips:创建类的对象的方法如下：
+ * 1.new + 构造器
+ * 2.考虑Xxx,Xxxs,XxxFactory,XxxBuilder类中查看是否有静态方法的存在，调用该静态方法
+ * 3.通过反射
  */
 public class NewInstanceTest {
 

@@ -90,7 +90,7 @@ public class ReflectionTest {
         System.out.println(clazz2);
 
         //方式三：调用Class的静态方法：forName(String classPath)
-        Class clazz3 = Class.forName("com.psj.ReflectionTest.Person");
+        Class clazz3 = Class.forName("com.psj.ReflectionTest.Person");//体现反射的动态性
         System.out.println(clazz3);
 
         System.out.println(clazz1 == clazz2);//true
